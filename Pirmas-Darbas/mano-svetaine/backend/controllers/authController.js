@@ -37,7 +37,7 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    // Gra=iname atsakyma klientui
+    // Gražiname atsakyma klientui
 
     res.status(201).json({
       message: "Registracija sėkminga!",
@@ -76,13 +76,13 @@ const loginUser = async (req, res) => {
     });
     if (!user) {
       return res.status(401).json({
-        message: "Neteisingas el.pa6tas ar slaptažodis.",
+        message: "Neteisingas el.paštas ar slaptažodis.",
       });
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res.status(401).json({
-        message: "Neteisingas el.pa6tas arba slaptažodis.",
+        message: "Neteisingas el.paštas arba slaptažodis.",
       });
     }
     const token = require("jsonwebtoken").sign(
