@@ -35,6 +35,7 @@ const registerUser = async (req, res) => {
       lastName,
       email,
       password: hashedPassword,
+      role: "user",
     });
 
     // Gražiname atsakyma klientui
@@ -114,4 +115,23 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).json({
+        message: "Vartotojas nerastas.",
+      });
+    }
+    res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    console.error("Profilio klaida:", error);
+    res.status(500).json({
+      message: "Serverio klaida gaunant profilį.",
+    });
+  }
+};
+
+module.exports = { registerUser, loginUser, getProfile };
